@@ -1,0 +1,109 @@
+#include "../include/obj1.h"
+
+#define BUF 256
+
+void zyanken(shouhai *create)
+{
+  char b[256];
+  char c[256];
+  int human;
+  int human2;
+  int comp;
+  int judge;
+  int retry;
+  int a;
+  int battle = 0;
+  int win = 0;
+  int lose = 0;
+  int draw = 0;
+
+  int flag = 0;
+
+  srand(time(NULL));
+
+  do{
+    if( system("clear") != 0)
+      {
+	perror("clear failed.");
+      }   
+
+    if(flag == 0)
+      {
+	  printf("じゃんけんゲーム開始\n");
+	  flag ++;
+      }
+    else
+      {
+	printf("\n");
+      }
+
+    comp = rand() % 3;
+    do{printf("\n\aじゃんけんポン・・・(1)グー　(2)チョキ　(3)パー:");
+      if(scanf("%1[^\n]%*[^\n]",b) == 0)
+	{
+	  perror("scanf failed");
+	}
+      getchar();
+      human = atoi(b);
+      switch(human){
+      case 1:human2 = 0; break;
+      case 2:human2 = 1; break;
+      case 3:human2 = 2; break;
+      default:human2 = 3;
+      	printf("もう一度お願いします。\n");
+	break;
+      }
+    }while(human2 == 3);
+
+    printf("私は");
+
+    switch(comp){
+    case 0:printf("グー"); break;
+    case 1:printf("チョキ"); break;
+    case 2:printf("パー"); break;
+    }
+
+    printf("です。\n");
+    judge = (human2 - comp + 3) % 3;
+
+    switch(judge){
+    case 0:puts("引き分けです。");
+      draw++;
+      break;
+    case 1:puts("あなたの負けです");
+      lose++; 
+      break;
+    case 2:puts("あなたの勝ちです"); 
+      win++;
+      break;
+    }
+    battle++;
+
+    printf("今のあなたの成績は");
+    printf("%d戦中\n",battle);
+    printf("勝ちが%d回\n",win);
+    printf("負けが%d回\n",lose);
+    printf("引き分けが%d回です。\n",draw);
+
+    do{ printf("もう一度しますか・・・(1)はい(2)いいえ:");
+      if(scanf("%1[^\n]%*[^\n]",c)==0)
+	{
+	  perror("scanf failed");
+	}
+      getchar();
+      retry = atoi(c);
+      switch(retry){
+      case 1: a = 0; break;
+      case 2: a = 1; break;
+      default: printf("もう一度お願いします。\n");
+	a = 2; break;
+      }
+    }while(a == 2);
+
+  }while(a == 0);
+
+  create->battle = battle;  
+  create->win    = win;  
+  create->lose   = lose;  
+  create->draw   = draw;  
+}
